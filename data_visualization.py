@@ -59,19 +59,19 @@ def decompose(dataset, model):
 
     plt.subplot(411)
     plt.title(f'{model.capitalize()} decomposition')
-    plt.plot(dataset, label='Original')
+    plt.plot(dataset, label='Original', color='green')
     plt.legend(loc='upper left')
 
     plt.subplot(412)
-    plt.plot(trend, label='Trend')
+    plt.plot(trend, label='Trend', color='green')
     plt.legend(loc='upper left')
 
     plt.subplot(413)
-    plt.plot(seasonal, label='Seasonality')
+    plt.plot(seasonal, label='Seasonality', color='green')
     plt.legend(loc='upper left')
 
     plt.subplot(414)
-    plt.plot(residual, label='Residuals')
+    plt.plot(residual, label='Residuals', color='green')
     plt.legend(loc='upper left')
 
     plt.tight_layout()
