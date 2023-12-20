@@ -12,7 +12,7 @@ song = pd.read_csv(file_song)
 
 def streams_by_date(dataset, name):
     fig, ax = plt.subplots(figsize=(12, 6))
-    ax.plot_date(dataset['Date'], dataset['Streams'], fmt='g--')  # x = array of dates, y = array of numbers
+    ax.plot_date(dataset['Date'], dataset['Streams'], fmt='g-', color='skyblue')  # x = array of dates, y = array of numbers
     fig.autofmt_xdate()
     # For tickmarks and ticklabels every week
     ax.xaxis.set_major_locator(MonthLocator())
@@ -32,7 +32,7 @@ def streams_by_date(dataset, name):
 def streams_by_day(dataset, name):
     day = dataset['Day of week'].unique()
     plt.figure(figsize=(10, 5))
-    plt.bar(day, dataset.groupby('Day of week')['Streams'].sum(), width=0.5, color='green')
+    plt.bar(day, dataset.groupby('Day of week')['Streams'].sum(), width=0.5, color='skyblue')
     plt.xlabel("Day of Week")
     plt.ylabel("Total Stream")
     plt.title("Number of Streams by day of week")
@@ -55,23 +55,23 @@ def decompose(dataset, model):
     seasonal = result.seasonal
     residual = result.resid
 
-    plt.figure(figsize=(8,6))
+    plt.figure(figsize=(8,8))
 
     plt.subplot(411)
     plt.title(f'{model.capitalize()} decomposition')
-    plt.plot(dataset, label='Original', color='green')
+    plt.plot(dataset, label='Original', color='skyblue')
     plt.legend(loc='upper left')
 
     plt.subplot(412)
-    plt.plot(trend, label='Trend', color='green')
+    plt.plot(trend, label='Trend', color='skyblue')
     plt.legend(loc='upper left')
 
     plt.subplot(413)
-    plt.plot(seasonal, label='Seasonality', color='green')
+    plt.plot(seasonal, label='Seasonality', color='skyblue')
     plt.legend(loc='upper left')
 
     plt.subplot(414)
-    plt.plot(residual, label='Residuals', color='green')
+    plt.plot(residual, label='Residuals', color='skyblue')
     plt.legend(loc='upper left')
 
     plt.tight_layout()
@@ -79,13 +79,13 @@ def decompose(dataset, model):
     plt.show()
 
 
-'''
-streams_by_day(song, 'song')
-streams_by_date(song, 'song')
+
+'''streams_by_day(song, 'song')
+streams_by_date(song, 'song')'''
 
 streams_by_day(coldplay, 'coldplay')
 streams_by_date(coldplay, 'coldplay')
-'''
+
 
 decompose(coldplay,'multiplicative')
 decompose(coldplay,'additive')
