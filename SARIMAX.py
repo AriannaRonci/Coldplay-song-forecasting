@@ -1,6 +1,7 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 import statsmodels.api as sm
+from tabulate import tabulate
 
 file = 'dataset/coldplay_grouped_by.csv'
 coldplay = pd.read_csv(file)
@@ -17,27 +18,23 @@ res = mod.fit(disp=0)
 
 print(res.summary())
 
-# The default is to get a one-step-ahead forecast
-forecast_result = res.forecast()
-print(f"Forecast Result: {forecast_result}\n")
+# Forecasting with five-step prevision
+fcast_result = res.get_forecast(steps=5)
+fcast_result_summary = fcast_result.summary_frame()
 
-fcast_res1 = res.get_forecast()
-# Most results are collected in the `summary_frame` attribute.
-# Here we specify that we want a confidence level of 90%
-print("Summary Frame with 90% Confidence Level:")
-print(fcast_res1.summary_frame(alpha=0.1))
+fcast_result_summary.index.name = 'Step'
 
-fcast_res2 = res.forecast(steps=2)
-print(f"\nForecast Result for the Next 2 Steps: \n{fcast_res2}")
+print("Summary Frame for Forecast Result (Next 5 Steps):")
+print(tabulate(fcast_result_summary, headers='keys', tablefmt='pretty'))
 
 # Plot result
 fig, ax = plt.subplots(figsize=(15, 5))
 
 # Plot the data
-streams.plot(ax=ax, label='Historical Data')
+streams.plot(ax=ax, label='Historical Data', color='g')
 
 # Construct the forecast
-forecast_steps = 56
+forecast_steps = 50
 fcast = res.get_forecast(steps=forecast_steps).summary_frame()
 forecast_index = pd.date_range(start=streams.index[-1] + pd.DateOffset(1), periods=forecast_steps, freq='D')
 fcast.index = forecast_index
