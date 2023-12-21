@@ -5,8 +5,8 @@ import matplotlib.pyplot as plt
 import statsmodels.api as sm
 from statsmodels.tsa.arima.model import ARIMA
 import datetime as dt
+import sklearn.metrics as met
 import numpy as np
-from sklearn.metrics import mean_squared_error
 
 file = 'dataset/coldplay_grouped_by.csv'
 coldplay = pd.read_csv(file)
@@ -42,16 +42,15 @@ def ARIMA_model(p, d, q, df):
     ax = plt.gca()
     results = model.fit()
     plt.plot(df)
-    plt.plot(results.fittedvalues, color='red')
+    plt.plot(pd.DataFrame(results.fittedvalues, columns=['Streams']).set_index(df.index), color='red')
     ax.legend(['Streams', 'Forecast'])
     plt.savefig('ARIMA/Predictions', bbox_inches='tight')
+    ax.set_xlim(dt.datetime(2017, 1, 1), dt.datetime(2018, 1, 9))
     plt.show()
     print(results.summary())
 
-
-
     # residual error
-    residuals = pd.DataFrame(results.resid)
+    residuals = pd.DataFrame(results.resid).set_index(df.index)
     fig, ax = plt.subplots(1, 2, figsize=(12, 6))
     residuals.plot(title="Residuals", ax=ax[0])
     residuals.plot(kind='kde', title='Density', ax=ax[1])
@@ -87,15 +86,23 @@ def train_ARIMA(p, d, q, df):
     ax.set_ylabel('Streams')
     ax.set_xlim(dt.datetime(2017, 1, 1), dt.datetime(2018, 1, 9))
 
-
-
-
     plt.legend()
     plt.show()
+    return pred_uc, test_data
 
 # ACF_PACF(coldplay['Streams'], 'ARIMA/ACF_PACF')
 # ADF_test(coldplay['Streams'])
 
-# ARIMA_model(1, 0, 2, coldplay['Streams'])
+# ARIMA_model(1, 0, 2, coldplay_date['Streams'])
 
-train_ARIMA(1, 0, 2, coldplay_date)
+pred_uc, test_data = train_ARIMA(1, 0, 2, coldplay_date)
+
+predicted = pred_uc.predicted_mean
+mape = met.mean_absolute_percentage_error(test_data, predicted)
+sqe = met.mean_squared_error(test_data.squeeze(), predicted)
+mae = met.mean_absolute_error(test_data, predicted)
+r2 = met.r2_score(test_data, predicted)
+print(mape)
+print(sqe)
+print(mae)
+print(r2)
