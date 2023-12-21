@@ -16,14 +16,14 @@ coldplay_date.set_index(pd.DatetimeIndex(coldplay.Date), inplace=True)
 coldplay_date.drop(columns='Date', inplace=True)
 
 
-def ACF_PACF(df):
+def ACF_PACF(df, path_name):
     # ACF, PACF graphs to help determine order of ARIMA model, again statsmodel has these handy functions built-in
     fig = plt.figure(figsize=(12, 8))
     ax1 = fig.add_subplot(211)
     fig = sm.graphics.tsa.plot_acf(df[1:], lags=40, ax=ax1)  # first value of diff is NaN
     ax2 = fig.add_subplot(212)
     sm.graphics.tsa.plot_pacf(df[1:], lags=40, ax=ax2)
-    plt.savefig('ARIMA/ACF_PACF')
+    plt.savefig(path_name)
     plt.show()
 
 
@@ -64,9 +64,6 @@ def ARIMA_model(p, d, q, df):
 
 
 def train_ARIMA(p, d, q, df):
-    from statsmodels.tsa.stattools import acf
-
-    # Create Training and Test
     train_data, test_data = train_test_split(df, test_size=0.2, shuffle=False)
     index_list = list(df.index)
     train_len = int(len(index_list)*0.8)
@@ -96,7 +93,7 @@ def train_ARIMA(p, d, q, df):
     plt.legend()
     plt.show()
 
-# ACF_PACF(coldplay['Streams'])
+# ACF_PACF(coldplay['Streams'], 'ARIMA/ACF_PACF')
 # ADF_test(coldplay['Streams'])
 
 # ARIMA_model(1, 0, 2, coldplay['Streams'])

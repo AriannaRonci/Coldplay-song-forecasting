@@ -4,6 +4,8 @@ file = 'dataset/coldplay.csv'
 coldplay = pd.read_csv(file)
 coldplay = coldplay.groupby(['Date'])['Streams'].sum().reset_index()
 
+
+
 coldplay['Date'] = pd.to_datetime(coldplay['Date'])
 coldplay['Day of week'] = coldplay['Date'].dt.dayofweek
 coldplay['Day of week'] = coldplay['Day of week'].map({
@@ -36,3 +38,5 @@ song['Day of week'] = song['Day of week'].map({
 })
 
 song.to_csv('dataset/song_grouped_by.csv', header=True)
+
+
