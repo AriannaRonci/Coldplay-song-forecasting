@@ -68,8 +68,11 @@ def train_ARIMA(p, d, q, df):
 
     # Create Training and Test
     train_data, test_data = train_test_split(df, test_size=0.2, shuffle=False)
+    index_list = list(df.index)
+    train_len = int(len(index_list)*0.8)
+    date_split = str(index_list[train_len+1])
     ax = df.plot(color='b', label='Train')
-    df.loc['2017-11-01':].plot(color='r', label='Test', ax=ax)
+    df.loc[date_split:].plot(color='r', label='Test', ax=ax)
 
     # Fit ARIMA model on training data
     model = ARIMA(train_data, order=(p, d, q))
