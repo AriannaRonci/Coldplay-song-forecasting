@@ -65,8 +65,8 @@ def ARIMA_model(p, d, q, df):
 def train_ARIMA(p, d, q, df):
     train_data, test_data = train_test_split(df, test_size=0.2, shuffle=False)
     index_list = list(df.index)
-    train_len = int(len(index_list)*0.8)
-    date_split = str(index_list[train_len+1])
+    train_len = int(len(index_list) * 0.8)
+    date_split = str(index_list[train_len + 1])
     ax = df.plot(color='b', label='Train')
     df.loc[date_split:].plot(color='r', label='Test', ax=ax)
 
@@ -77,7 +77,9 @@ def train_ARIMA(p, d, q, df):
     pred_uc = arima_model.get_forecast(steps=len(test_data))
     pred_ci = pred_uc.conf_int()
 
-    pd.DataFrame(pred_uc.predicted_mean).set_index(pd.DatetimeIndex(test_data.index))['predicted_mean'].plot(ax=ax, label='Forecast', style='k--')
+    pd.DataFrame(pred_uc.predicted_mean).set_index(pd.DatetimeIndex(test_data.index))['predicted_mean'].plot(ax=ax,
+                                                                                                             label='Forecast',
+                                                                                                             style='k--')
     ax.fill_between(pred_ci.set_index(pd.DatetimeIndex(test_data.index).to_period('D')).index,
                     pred_ci.iloc[:, 0],
                     pred_ci.iloc[:, 1], color='k', alpha=.05)
@@ -87,12 +89,14 @@ def train_ARIMA(p, d, q, df):
     ax.set_xlim(dt.datetime(2017, 1, 1), dt.datetime(2018, 1, 9))
 
     plt.legend()
+    plt.savefig('ARIMA/Forecasting', bbox_inches='tight')
     plt.show()
     return pred_uc, test_data
 
+
 # ACF_PACF(coldplay['Streams'], 'ARIMA/ACF_PACF')
 # ADF_test(coldplay['Streams'])
-
+train_ARIMA(1, 0, 2, coldplay_date['Streams'])
 # ARIMA_model(1, 0, 2, coldplay_date['Streams'])
 
 pred_uc, test_data = train_ARIMA(1, 0, 2, coldplay_date)
