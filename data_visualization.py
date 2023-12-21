@@ -43,19 +43,20 @@ def streams_by_day(dataset, name):
 def decompose(dataset, model):
 
     dataset = dataset.iloc[:,1:3]
-    tdi = pd.DatetimeIndex(dataset.Date)
+    tdi = pd.DatetimeIndex(dataset.Date, freq='D')
     dataset.set_index(tdi, inplace=True)
+    d = dataset['Date']
     dataset.drop(columns='Date', inplace=True)
     dataset.index.name = 'datetimeindex'
     time_series = pd.Series(dataset['Streams'], index=tdi)
-    result = seasonal_decompose(time_series, model=model, period=7, extrapolate_trend='freq')
+    result = seasonal_decompose(time_series, model=model, extrapolate_trend='freq')
 
     # Visualizza i componenti decomposti
     trend = result.trend
     seasonal = result.seasonal
     residual = result.resid
 
-    plt.figure(figsize=(8,8))
+    plt.figure(figsize=(8,10))
 
     plt.subplot(411)
     plt.title(f'{model.capitalize()} decomposition')
@@ -76,6 +77,13 @@ def decompose(dataset, model):
 
     plt.tight_layout()
     plt.savefig(f"plots/decomposition_{model}", bbox_inches='tight')
+    plt.show()
+
+    fig, ax = plt.subplots(figsize=(8, 5))
+    ax.plot_date(d.iloc[:20], seasonal.iloc[:20], fmt='o-',
+                 color='skyblue')  # x = array of dates, y = array of numbers
+    fig.autofmt_xdate()
+    plt.savefig(f"plots/season_{model}", bbox_inches='tight')
     plt.show()
 
 
