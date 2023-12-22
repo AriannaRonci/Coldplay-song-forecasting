@@ -18,10 +18,6 @@ coldplay = coldplay.iloc[:, 1:2]
 
 streams = coldplay['Streams']
 
-'''coldplay_date = coldplay.iloc[:, 1:3]
-coldplay_date.set_index(pd.DatetimeIndex(coldplay.Date), inplace=True)
-coldplay_date.drop(columns='Date', inplace=True)'''
-
 seasonal_diff = seasonal_decompose(coldplay, model='additive', extrapolate_trend='freq').seasonal
 
 
@@ -92,6 +88,8 @@ def train_SARIMAX(p, d, q, P, D, Q, m, df):
     index_list = list(df.index)
     train_len = int(len(index_list) * 0.8)
     date_split = str(index_list[train_len + 1])
+    train_data = df[:date_split]
+    test_data = df[date_split:]
     ax = df.plot(color='b', label='Train')
     df.loc[date_split:].plot(color='r', label='Test', ax=ax)
 
@@ -132,7 +130,7 @@ mape = met.mean_absolute_percentage_error(test_data, predicted)
 sqe = met.mean_squared_error(test_data.squeeze(), predicted)
 mae = met.mean_absolute_error(test_data, predicted)
 r2 = met.r2_score(test_data, predicted)
-print(mape)
-print(sqe)
-print(mae)
-print(r2)
+print(f'MAPE: {mape:.4f}')
+print(f'MSE: {sqe:.4f}')
+print(f'MAE: {mae:.4f}')
+print(f'R2: {r2:.4f}')
