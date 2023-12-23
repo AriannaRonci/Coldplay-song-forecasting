@@ -2,6 +2,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import statsmodels.api as sm
 from sklearn.model_selection import train_test_split
+from statsmodels.tsa.arima.model import ARIMA
 from statsmodels.tsa.seasonal import seasonal_decompose
 from statsmodels.tsa.statespace.sarimax import SARIMAX
 import datetime as dt
@@ -57,7 +58,7 @@ def next_prediction(p, d, q, P, D, Q, m, df):
 
 
 def SARIMAX_model(p, d, q, P, D, Q, m, df):
-    model = SARIMAX(df.values, order=(p, d, q), seasonal_order=(P, D, Q, m))
+    model = ARIMA(df.values, order=(p, d, q), seasonal_order=(P, D, Q, m))
     results = model.fit()
 
     ax = plt.gca()
@@ -94,7 +95,7 @@ def train_SARIMAX(p, d, q, P, D, Q, m, df):
     df.loc[date_split:].plot(color='r', label='Test', ax=ax)
 
     # Fit SARIMAX model on training data
-    model = SARIMAX(train_data, order=(p, d, q), seasonal_order=(P, D, Q, m))
+    model = ARIMA(train_data, order=(p, d, q), seasonal_order=(P, D, Q, m))
     sarimax_model = model.fit()
 
     # Forecast
