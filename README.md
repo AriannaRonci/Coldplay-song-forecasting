@@ -23,15 +23,24 @@ Analisi della stazionarietà e dell'autocorrelazione
 - test statistico Augmented Dickey-Fuller (ADF)
 - test statistico Partial AutoCorrelation Function (PACF)
 
-Modelli addestrati
+Modelli
+I modelli addestrati e i parametri scelti sono i seguenti:
 - ARIMA (1, 0, 2)
 - SARIMAX (1, 0, 2)x(1, 0, 1)7
 
 Metriche di valutazione dei modelli
+Dopo aver addestrato i modelli si sono valutati i rusltati ottenuti da ciascuno di essi utilizzando le seguenti metriche:
 - Mean Absolute Error (MAE)
 - Mean Absolute Percentage Error (MAPE)
 - Mean Squared Error (MSE)
 - Coefficient of determination (R2)
 
 
+
+## Autori
+Progetto realizzato da:
+- [Chiara Gobbi](https://github.com/chiaragii)
+- [Alice Moretti](https://github.com/AliceMoretti00)
+- [Federica Parlapiano](https://github.com/FedericaParlapiano)
+- [Arianna Ronci](https://github.com/AriannaRonci)
 
