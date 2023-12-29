@@ -9,7 +9,7 @@ Tale dataset comprende più di 2 milioni di righe che includono 6629 artisti e 1
 E' scaricabile al seguente [link](https://www.kaggle.com/datasets/edumucelli/spotifys-worldwide-daily-song-ranking).
 
 ## Requisiti
-- Python 3.6 o versioni successive
+- Python 3.9 o versioni successive
 - Dipendenze Python: pandas, numpy, statsmodels, matplotlib, sklearn
 
 
