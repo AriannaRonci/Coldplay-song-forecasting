@@ -13,4 +13,25 @@ E' scaricabile al seguente [link](https://www.kaggle.com/datasets/edumucelli/spo
 - Dipendenze Python: pandas, numpy, statsmodels, matplotlib, sklearn
 
 
+## Analisi e modelli addestrati
+Decomposizione della serie temporale nelle componenti:
+- trend
+- stagionalità
+- residuo
+
+Analisi della stazionarietà e dell'autocorrelazione 
+- test statistico Augmented Dickey-Fuller (ADF)
+- test statistico Partial AutoCorrelation Function (PACF)
+
+Modelli addestrati
+- ARIMA (1, 0, 2)
+- SARIMAX (1, 0, 2)x(1, 0, 1)7
+
+Metriche di valutazione dei modelli
+- Mean Absolute Error (MAE)
+- Mean Absolute Percentage Error (MAPE)
+- Mean Squared Error (MSE)
+- Coefficient of determination (R2)
+
+
 
